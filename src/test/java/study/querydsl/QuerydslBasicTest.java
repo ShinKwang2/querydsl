@@ -5,6 +5,7 @@ import com.querydsl.core.Tuple;
 import com.querydsl.core.types.dsl.CaseBuilder;
 import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.core.types.dsl.NumberExpression;
+import com.querydsl.core.types.dsl.Wildcard;
 import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.assertj.core.api.Assertions;
@@ -139,6 +140,18 @@ public class QuerydslBasicTest {
         long total = queryFactory
                 .selectFrom(member)
                 .fetchCount();
+    }
+
+    // fetchCount Deprecated(향후 미지원)
+    @Test
+    void count() {
+        Long totalCount = queryFactory
+                //.select(Wildcard.count) //select count(*)
+                .select(member.count()) //select count(member.id)
+                .from(member)
+                .fetchOne();
+
+        System.out.println("totalCount = " + totalCount);
     }
 
     /**
